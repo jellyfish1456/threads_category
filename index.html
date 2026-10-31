@@ -15,9 +15,13 @@ h1{margin:0 0 4px;font-size:26px}.meta{color:var(--sub);font-size:14px}
 .chip .n{opacity:.7;margin-left:5px;font-size:12px}
 .hint{color:var(--sub);font-size:13px;margin:0 0 14px}
 .subcat{margin:22px 0 10px;font-size:13px;font-weight:700;color:var(--accent)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;align-items:start}
-.item{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:120px}
-.ph{padding:14px 15px;display:flex;flex-direction:column;gap:7px;text-decoration:none;color:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;align-items:stretch}
+.item{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;height:460px;position:relative}
+.item::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64px;background:linear-gradient(transparent,var(--card));pointer-events:none;z-index:2}
+.item .open{position:absolute;top:8px;right:8px;z-index:5;background:rgba(0,0,0,.62);color:#fff;font-size:12px;padding:4px 9px;border-radius:999px;text-decoration:none;backdrop-filter:blur(2px)}
+.item .open:hover{background:var(--accent)}
+.item iframe,.item .text-post-media,.item blockquote{width:100%!important;min-width:0!important}
+.ph{padding:14px 15px;display:flex;flex-direction:column;gap:7px;text-decoration:none;color:inherit;height:100%}
 .ph .top{display:flex;justify-content:space-between;gap:8px}.ph .auth{font-weight:600;font-size:14px;color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ph .date{color:var(--sub);font-size:12px;white-space:nowrap}.ph .topic{font-size:14px}.ph .tag{align-self:flex-start;background:var(--chip);font-size:11px;padding:2px 8px;border-radius:6px}
 .ph .mini{color:var(--sub);font-size:12px}
@@ -26,7 +30,7 @@ h1{margin:0 0 4px;font-size:26px}.meta{color:var(--sub);font-size:14px}
 footer{max-width:1200px;margin:0 auto;padding:20px;color:var(--sub);font-size:12px}
 </style></head><body>
 <header><h1>📌 Threads 轉發分類</h1>
-<div class="meta">@kristw_16 · 共 1219 則轉發 · 更新於 2026-10-31 · <b>版本 2026-10-31-1</b></div></header>
+<div class="meta">@kristw_16 · 共 1219 則轉發 · 更新於 2026-10-31 · <b>版本 2026-10-31-2</b></div></header>
 <div class="wrap">
 <input id="q" class="search" placeholder="🔍 搜尋作者、主題、子分類…">
 <div id="chips" class="chips"></div>
@@ -51,7 +55,7 @@ function loadItem(el){ if(el.dataset.loaded==='1')return; el.dataset.loaded='1';
  const url=el.dataset.url;
  const bq=document.createElement('blockquote');bq.className='text-post-media';bq.setAttribute('data-text-post-permalink',url);bq.setAttribute('data-text-post-version','0');
  const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';bq.appendChild(a);
- el.innerHTML='';el.appendChild(bq);rescan();
+ el.innerHTML='<a class="open" href="'+url+'" target="_blank" rel="noopener">↗ 開啟</a>';el.appendChild(bq);rescan();
 }
 function pump(){ while(inflight<MAX&&queue.length){ const el=queue.shift(); inflight++; loadItem(el);
    setTimeout(()=>{inflight--;pump();},650); } }
